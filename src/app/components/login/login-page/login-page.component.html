@@ -1,0 +1,32 @@
+<div [formGroup]="form" class="form-container" [ngStyle]="{'width':'400px'}">
+  <div class="mat-title">Login</div>
+
+  <div *ngIf="showError" class="alert alert-danger" role="alert">
+    {{errorMessage}}
+  </div>
+
+  <mat-form-field [ngStyle]="{'width':'320px'}" appearance="outline">
+    <input
+      matInput
+      formControlName = "username"
+      type="string"
+      minlength="4"
+      placeholder="username">
+
+    <mat-hint>Length must be greater than 4</mat-hint>
+    <mat-error *ngIf="form.controls.username.invalid">Length must be greater than 4</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" [ngStyle]="{'width':'320px'}">
+    <input
+      matInput
+      type="password"
+      formControlName="password"
+      placeholder="password">
+
+    <mat-hint>Length must be greater than 4</mat-hint>
+    <mat-error *ngIf="form.controls.password.invalid">Length must be greater than 4</mat-error>
+  </mat-form-field>
+
+    <button [disabled]="form.invalid" mat-raised-button (click)="onSubmit()" class="login-button">Login</button>
+</div>

@@ -1,0 +1,14 @@
+.form-container{
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mat-title{
+  text-align: center;
+}
+
+.login-button{
+  width: 320px;
+}
