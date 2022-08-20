@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Chat} from "../../../api/models/Chat";
+import {ActivatedRoute} from "@angular/router";
+import {Location} from '@angular/common';
+import {ChatHttpService} from "../../../api/services/chat-http.service";
+import {ChattingService} from "../../../api/services/chatting/chatting.service";
 
 @Component({
   selector: 'app-chat',
@@ -7,9 +12,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
 
-  constructor() { }
+  chat! : Chat;
 
-  ngOnInit(): void {
+  constructor(
+    private route : ActivatedRoute,
+    private location : Location,
+    private chatService : ChatHttpService,
+    private chattingService : ChattingService) { }
+
+  private getChat(){
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.chatService.getChatById(id).subscribe(
+      (chat) => this.chat = chat);
   }
 
+  ngOnInit(): void {
+    if(this.chat == null)
+      this.getChat();
+
+    this.chattingService.currentChat = this.chat;
+    this.chattingService.connectToSignalR();
+  }
+
+  goBack(){
+    this.location.back();
+  }
 }

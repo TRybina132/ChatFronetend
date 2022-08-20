@@ -1,7 +1,8 @@
 <div class="chat-list-wrapper">
   <div class="mat-title chats-title">All chats</div>
     <mat-action-list>
-      <button mat-list-item *ngFor="let chat of chats" (click)="openChat(chat)">
+      <button mat-list-item *ngFor="let chat of chats"
+              routerLink="/chat/{{chat.id}}">
         {{chat.name}} - participants {{chat.users?.length}}
       </button>
     </mat-action-list>

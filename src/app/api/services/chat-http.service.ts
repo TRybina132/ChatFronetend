@@ -16,4 +16,8 @@ export class ChatHttpService {
   getAll() : Observable<Chat[]>{
     return this.httpClient.get<Chat[]>(this.url);
   }
+
+  getChatById(id : number) : Observable<Chat>{
+    return this.httpClient.get<Chat>(this.url + `/${id}`);
+  }
 }

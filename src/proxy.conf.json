@@ -3,6 +3,10 @@
     "target": "https://localhost:7200",
     "secure": false,
     "logLevel": "debug",
-    "changeOrigin": true
+    "changeOrigin": true,
+    "ws": true,
+    "context": [
+      "api"
+    ]
   }
 }

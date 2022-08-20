@@ -8,6 +8,7 @@ import {LayoutModule} from "./components/layout/layout.module";
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {JwtModule} from "@auth0/angular-jwt";
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
+import {Location} from "@angular/common";
 
 export function getToken(){
   return localStorage.getItem("token");
@@ -34,6 +35,7 @@ export function getToken(){
   ],
   providers: [
     HttpClient,
+    Location,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

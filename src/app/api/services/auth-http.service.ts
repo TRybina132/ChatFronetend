@@ -32,6 +32,10 @@ export class AuthHttpService {
     localStorage.removeItem("username");
   }
 
+  getToken(){
+    return localStorage.getItem("token");
+  }
+
   private handleLogin(response : LoginResponse, username : string){
     if(response.isSuccessful) {
       localStorage.setItem("token", response.token as string);

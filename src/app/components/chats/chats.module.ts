@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, Location} from '@angular/common';
 import { ChatsComponent } from './chats/chats.component';
 import {RouterModule, Routes} from "@angular/router";
 import {MatGridListModule} from "@angular/material/grid-list";
@@ -22,6 +22,7 @@ const routes : Routes =[
     RouterModule.forChild(routes),
     MatGridListModule,
     MatListModule
-  ]
+  ],
+  providers: [Location]
 })
 export class ChatsModule { }

@@ -21,8 +21,4 @@ export class ChatsComponent implements OnInit {
     )
   }
 
-  openChat(chat : Chat){
-
-  }
-
 }
