@@ -5,7 +5,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {RouterModule} from "@angular/router";
 import {AppRoutingModule} from "./app-routing.module";
 import {LayoutModule} from "./components/layout/layout.module";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
+import {JwtModule} from "@auth0/angular-jwt";
+import {AuthInterceptor} from "./interceptors/auth.interceptor";
+
+export function getToken(){
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -17,9 +23,22 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     BrowserAnimationsModule,
     RouterModule,
     AppRoutingModule,
-    LayoutModule
+    LayoutModule,
+    JwtModule.forRoot({
+      config:{
+        tokenGetter: getToken,
+        allowedDomains: [""],
+        disallowedRoutes: []
+      }
+    })
   ],
-  providers: [HttpClient],
+  providers: [
+    HttpClient,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

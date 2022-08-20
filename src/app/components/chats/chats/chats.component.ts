@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ChatHttpService} from "../../../api/services/chat-http.service";
+import {Chat} from "../../../api/models/Chat";
 
 @Component({
   selector: 'app-chats',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatsComponent implements OnInit {
 
-  constructor() { }
+  chats! : Chat[];
+
+  constructor(private chatService : ChatHttpService) { }
 
   ngOnInit(): void {
+    this.chatService.getAll().subscribe(
+      (chats) =>{
+        this.chats = chats;
+      }
+    )
+  }
+
+  openChat(chat : Chat){
+
   }
 
 }
