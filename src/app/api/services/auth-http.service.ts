@@ -4,6 +4,7 @@ import {Login} from "../models/Login";
 import {Observable, tap} from "rxjs";
 import {LoginResponse} from "../models/LoginResponse";
 import {JwtHelperService} from "@auth0/angular-jwt";
+import jwtDecode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,19 @@ export class AuthHttpService {
 
   getToken(){
     return localStorage.getItem("token");
+  }
+
+  getUsername(){
+    return localStorage.getItem("username");
+  }
+
+  getUserId() : number{
+    const token : string = localStorage.getItem("token") ?? "";
+    if(token != "") {
+      let decoded : any = jwtDecode(token);
+      return decoded.id;
+    }
+    return -1;
   }
 
   private handleLogin(response : LoginResponse, username : string){

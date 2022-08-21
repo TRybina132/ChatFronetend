@@ -1,0 +1,32 @@
+.chat-messages{
+  display: flex;
+  flex-direction: column;
+  height: 75vh;
+  overflow-y: auto;
+  background: linear-gradient(37deg, #00897b, rgba(0, 226, 255, 0.63));
+}
+
+.chat-header{
+  padding: 10px;
+  font-size: initial;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+}
+
+.message-input{
+  font-size: inherit;
+  width: 85%;
+  min-height: 40px;
+  padding: 10px 15px;
+  resize: none;
+  border: none;
+  outline: none;
+  flex-grow: 1;
+}
+
+.chat-input{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

@@ -1,5 +1,30 @@
-<div class="chat-window">
-  <div class="chat-window-header">
-    <div class="chat-name">CHAT WORKS</div>
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="chat-name">{{chat.name}}</div>
+  </div>
+
+  <div *ngIf="chat?.messages" class="chat-messages" #messagesContairner>
+    <app-message
+      *ngFor="let message of chat?.messages"
+      attr.id = "messsage-{{message.id}}"
+      [ngClass]="{'my-message': message.senderId == authService.getUserId()}"
+      [message]="message">
+    </app-message>
+  </div>
+
+  <div class="chat-input">
+    <textarea
+      class="message-input"
+      placeholder="Write message..."
+      matInput
+      [(ngModel)] = "messageText"
+      (keydown.enter) = "onSend(messageText)"></textarea>
+
+    <button
+      mat-icon-button
+      *ngIf = "messageText.trim()"
+      (click)="onSend(messageText)">
+        <mat-icon>send</mat-icon>
+    </button>
   </div>
 </div>

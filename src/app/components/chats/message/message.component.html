@@ -1,1 +1,8 @@
-<p>message works!</p>
+<div class="message-container">
+  <div class="sender-info"><p>{{message?.senderName}}</p></div>
+
+  <div class="message-content">
+    <p>{{message?.text}}</p>
+    <p class="message-sent-at">{{formatedMessageTime}}</p>
+  </div>
+</div>
