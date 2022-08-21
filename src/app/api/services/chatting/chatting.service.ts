@@ -1,36 +1,43 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Chat} from "../../models/Chat";
 import {AuthHttpService} from "../auth-http.service";
-import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
+import {HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 
 @Injectable({
   providedIn: 'root'
 })
-
-//  ᓚᘏᗢ It's ok that connection is closing, just try another method
 export class ChattingService {
 
-  private hubConnection!: HubConnection;
+private hubConnection!: HubConnection;
 
-  url : string = "https://localhost:7200/chat";
+  url : string = "https://localhost:7200/hubs/messages";
   currentChat? : Chat;
+  connectionUrl! : string;
 
-  constructor(private authService : AuthHttpService) { }
+  constructor(private authService : AuthHttpService)
+  {
+    this.connectionUrl = `${this.url}?access_token=${this.authService.getToken()}`;
+
+    this.hubConnection = new HubConnectionBuilder()
+      .withUrl(this.connectionUrl, {
+        skipNegotiation: true,
+        transport: HttpTransportType.WebSockets
+      })
+      .build();
+  }
 
   private handleError(action: string, err: any){
     console.log(`Error while trying to ${action}. ${err}`);
   }
 
   public connectToSignalR(){
-    let connectionUrl = `${this.url}?access_token=${this.authService.getToken()}`;
-
-    this.hubConnection = new HubConnectionBuilder()
-      .withUrl(connectionUrl)
-      .build();
 
     this.hubConnection
       .start()
-      .then(() => console.log('Connection has been established'))
-      .catch(err => this.handleError('Connect to SignalR server', err));
+      .then(() => console.log('Connection started!'))
+
+    this.hubConnection.on('sendMessage', (message: string) => {
+      console.log(message);
+    });
   }
 }
