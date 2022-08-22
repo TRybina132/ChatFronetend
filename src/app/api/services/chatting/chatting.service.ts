@@ -5,14 +5,15 @@ import {HttpTransportType, HubConnection, HubConnectionBuilder, LogLevel} from "
 import {MessagingHttpService} from "../messaging-http.service";
 import {Message} from "../../models/Message";
 import {MessageSendModel} from "../../models/MessageSendModel";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChattingService {
 
-private hubConnection!: HubConnection;
+  private hubConnection!: HubConnection;
+  private unreadMessagesCount: number = 0;
 
   url : string = "https://localhost:7200/hubs/messages";
   currentChat! : Chat;

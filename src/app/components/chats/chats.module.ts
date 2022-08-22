@@ -10,6 +10,9 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
+import {MatMenuModule} from "@angular/material/menu";
+import { MessageDeleteDialogComponent } from './message-delete-dialog/message-delete-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 const routes : Routes =[
   {path: '', component: ChatsComponent}
@@ -19,18 +22,21 @@ const routes : Routes =[
   declarations: [
     ChatsComponent,
     ChatComponent,
-    MessageComponent
+    MessageComponent,
+    MessageDeleteDialogComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    MatGridListModule,
-    MatListModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatIconModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        MatGridListModule,
+        MatListModule,
+        MatInputModule,
+        FormsModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatDialogModule
+    ],
   providers: [Location]
 })
 export class ChatsModule { }

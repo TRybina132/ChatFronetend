@@ -8,7 +8,7 @@ import {Message} from "../models/Message";
 })
 export class MessageHttpService {
 
-  url : string = "";
+  url : string = "https://localhost:7200/api/message";
 
   constructor(private httpClient : HttpClient) { }
 

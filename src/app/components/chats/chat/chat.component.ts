@@ -1,4 +1,13 @@
-import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, SimpleChange, ViewChild} from '@angular/core';
+import {
+  AfterContentChecked, AfterViewChecked,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input, OnChanges,
+  OnInit,
+  SimpleChange, SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {Chat} from "../../../api/models/Chat";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
@@ -15,9 +24,9 @@ import {MessageHttpService} from "../../../api/services/message-http.service";
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnChanges, AfterViewChecked{
 
-  private messagesCount: number = 20;
+  private messagesTakeCount: number = 20;
 
   skip: number = 0;
   messageText : string = "";
@@ -25,12 +34,11 @@ export class ChatComponent implements OnInit {
   scrolledToBottom: boolean = false;
 
   @Input() chat! : Chat;
-  @ViewChild('messagesContainer') viewportRef!: ElementRef;
+  @ViewChild('messagesContainer') viewportRef?: ElementRef;
 
   private _changeDetectionRef: ChangeDetectorRef;
 
   constructor(
-    private route : ActivatedRoute,
     private location : Location,
     private chatService : ChatHttpService,
     private chattingService : ChattingService,
@@ -38,31 +46,62 @@ export class ChatComponent implements OnInit {
     private changeDetectionRef: ChangeDetectorRef,
     private messageService : MessageHttpService) {
         this._changeDetectionRef = changeDetectionRef;
+        this.loadMessages();
       }
 
-  private getChat() : Observable<Chat>{
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    return  this.chatService.getChatById(id).pipe(
-      tap((chat) => this.chat = chat));
+  get scrollHeight(): number {
+    return this.viewportRef?.nativeElement.scrollHeight;
+  }
+
+  get scrollTop(): number {
+    return this.viewportRef?.nativeElement.scrollTop;
+  }
+
+  private setScrollTop(currentScrollTop: number): void {
+    if(this.viewportRef != null)
+      this.viewportRef.nativeElement.scrollTop = currentScrollTop;
+  }
+
+  private loadMessages(){
+    if(this.chat?.id != undefined){
+      this.messageService.getMessagesForChat(this.chat.id, this.skip, this.messagesTakeCount)
+        .subscribe(messages =>{
+            let preScrollHeight = this.scrollHeight;
+            const length : number = messages.length;
+
+            if(length != 0)
+              this.chat.messages?.unshift(...messages.reverse());
+            else if(length == 0){
+              this.chat.messages = messages;
+            }
+
+            this._changeDetectionRef.detectChanges();
+            let postScrollHeight = this.scrollHeight;
+
+            if(preScrollHeight != postScrollHeight){
+              let delta = ( postScrollHeight - preScrollHeight);
+              this.setScrollTop(delta);
+            }
+
+            if(length < this.messagesTakeCount)
+              this.hasReadToEnd = true;
+
+            this.skip+= length;
+          }
+        );
+    }
   }
 
   ngOnInit(): void {
-    if(this.chat == null)
-      this.getChat().subscribe(() => {
-        this.chattingService.currentChat = this.chat;
-        this.chattingService.connectToSignalR();
-      });
+     this.chattingService.currentChat = this.chat;
+     this.chat.messages = [];
+     this.chattingService.connectToSignalR();
 
     this.chattingService.getMessages$.subscribe(message =>{
       this.onGetMessage(message);
     })
   }
 
-  ngOnChanges(changes : SimpleChange){
-    // this.scrolledToBottom = false;
-    // this.hasReadToEnd = false;
-    // this.chat.messages = [];
-  }
 
   onSend(messageText : string){
     if(this.chat != undefined && messageText.trim()){
@@ -76,15 +115,30 @@ export class ChatComponent implements OnInit {
         message.senderId = this.authService.getUserId();
 
         this.chattingService.sendMessage(message);
+        this.messageText = "";
     }
   }
+
+  // use menu!
 
   onGetMessage(message : Message){
     this.chat.messages?.push(message);
     this.changeDetectionRef.detectChanges();
+    this.setScrollTop(this.scrollHeight);
   }
 
-  goBack(){
-    this.location.back();
+  ngAfterViewChecked() {
+    if (!this.scrolledToBottom && this.chat?.messages?.length != 0){
+      this.setScrollTop(this.scrollHeight);
+      this.scrolledToBottom = true;
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.scrolledToBottom = false;
+    this.hasReadToEnd = false;
+    console.log("on change");
+    this.skip = this.chat.messages?.length ?? 0;
+    this.loadMessages();
   }
 }

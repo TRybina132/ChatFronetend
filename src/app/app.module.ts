@@ -9,6 +9,7 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/h
 import {JwtModule} from "@auth0/angular-jwt";
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import {Location} from "@angular/common";
+import {MatDialogModule} from "@angular/material/dialog";
 
 export function getToken(){
   return localStorage.getItem("token");
@@ -35,6 +36,7 @@ export function getToken(){
   ],
   providers: [
     HttpClient,
+    MatDialogModule,
     Location,
     {
       provide: HTTP_INTERCEPTORS,

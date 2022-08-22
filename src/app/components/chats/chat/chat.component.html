@@ -3,12 +3,12 @@
     <div class="chat-name">{{chat.name}}</div>
   </div>
 
-  <div class="chat-messages">
+  <div class="chat-messages" #messagesContainer>
     <app-message
       *ngFor="let message of chat?.messages"
-      attr.id = "messsage-{{message.id}}"
       [ngClass]="{'my-message': message.senderId == authService.getUserId()}"
-      [message]="message">
+      [message]="message"
+      [chat]="chat">
     </app-message>
   </div>
 

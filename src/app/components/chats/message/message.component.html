@@ -1,8 +1,30 @@
 <div class="message-container">
-  <div class="sender-info"><p>{{message?.senderName}}</p></div>
+  <div class="sender-info">
+    <p>
+      {{message?.senderName}}
+      <button mat-icon-button class="menu-button" [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu = "matMenu">
+        <button mat-menu-item>
+          Delete
+          <mat-icon>delete</mat-icon>
+        </button>
 
+        <button mat-menu-item>
+          Edit
+          <mat-icon>create</mat-icon>
+        </button>
+
+        <button mat-menu-item>
+          Reply
+          <mat-icon>reply</mat-icon>
+        </button>
+      </mat-menu>
+    </p>
+  </div>
   <div class="message-content">
     <p>{{message?.text}}</p>
-    <p class="message-sent-at">{{formatedMessageTime}}</p>
+    <p class="message-sent-at">{{message?.sentAt | date:'short' : 'GMT+3'}}</p>
   </div>
 </div>

@@ -9,6 +9,7 @@ import {Chat} from "../../../api/models/Chat";
 })
 export class ChatsComponent implements OnInit {
 
+  selectedChat? : Chat;
   chats! : Chat[];
 
   constructor(private chatService : ChatHttpService) { }
@@ -19,6 +20,10 @@ export class ChatsComponent implements OnInit {
         this.chats = chats;
       }
     )
+  }
+
+  onChatSelected(selected : Chat){
+    this.selectedChat = selected;
   }
 
 }

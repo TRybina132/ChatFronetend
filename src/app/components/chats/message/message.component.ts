@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Message} from "../../../api/models/Message";
+import {Chat} from "../../../api/models/Chat";
+import {MatDialog} from "@angular/material/dialog";
+import {MessageDeleteDialogComponent} from "../message-delete-dialog/message-delete-dialog.component";
 
 @Component({
   selector: 'app-message',
@@ -9,39 +12,25 @@ import {Message} from "../../../api/models/Message";
 export class MessageComponent implements OnInit {
 
   @Input() message?: Message;
+  @Input() chat? : Chat;
 
-  get formatedMessageTime() {
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ]
-
-    let currentDate = new Date();
-    let dateTime = currentDate
-    if (this.message?.sentAt){
-      dateTime = new Date(this.message.sentAt)
-    }
-
-    let yearStr = '';
-    if (currentDate.getFullYear() - currentDate.getFullYear() > 0)
-      yearStr = dateTime.getFullYear().toString();
-
-    return `${dateTime.getHours()}:${dateTime.getMinutes()}, ${dateTime.getDate()} ${months[dateTime.getMonth()]} ${yearStr}`
-  }
-
-  constructor() { }
+  constructor(private matDialog : MatDialog) { }
 
   ngOnInit(): void {
+  }
+
+  onDelete(){
+    const dialog = this.matDialog.open(MessageDeleteDialogComponent,{
+      data: this.message
+    });
+  }
+
+  onEdit(){
+
+  }
+
+  onReply(){
+
   }
 
 }

@@ -1,10 +1,31 @@
-<div class="chat-list-wrapper">
-  <div class="mat-title chats-title">All chats</div>
+<div class="chats-container">
+  <div class="chats-list-sidebar">
     <mat-action-list>
-      <button mat-list-item *ngFor="let chat of chats"
-              routerLink="/chat/{{chat.id}}">
-        {{chat.name}} - participants {{chat.users?.length}}
-      </button>
+            <button
+              mat-list-item *ngFor="let chat of chats"
+              (click)="onChatSelected(chat)">
+                    {{chat.name}} - participants {{chat.users?.length}}
+            </button>
     </mat-action-list>
-  <div class="mat-title">My chats</div>
+  </div>
+
+  <div class="chat-window">
+    <app-chat
+      *ngIf="selectedChat"
+      [chat]="selectedChat">
+    </app-chat>
+  </div>
 </div>
+
+
+
+<!--<div class="chat-list-wrapper">-->
+<!--  <div class="mat-title chats-title">All chats</div>-->
+<!--    <mat-action-list>-->
+<!--      <button mat-list-item *ngFor="let chat of chats"-->
+<!--              routerLink="/chat/{{chat.id}}">-->
+<!--        {{chat.name}} - participants {{chat.users?.length}}-->
+<!--      </button>-->
+<!--    </mat-action-list>-->
+<!--  <div class="mat-title">My chats</div>-->
+<!--</div>-->

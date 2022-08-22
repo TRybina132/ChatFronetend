@@ -6,5 +6,6 @@ export class Message{
   chatId! : number;
   sentAt! : Date;
   text! : string;
-  senderName? : string;
+  senderName! : string;
+  sender? : User;
 }
