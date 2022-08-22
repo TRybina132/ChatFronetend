@@ -39,7 +39,6 @@ private hubConnection!: HubConnection;
 
   private listenForMessages(){
     this.hubConnection.on('receive', (message) =>{
-      console.log(message);
       this.getMessages$.next(message);
     });
   }

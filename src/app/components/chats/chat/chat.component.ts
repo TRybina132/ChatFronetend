@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, Input, OnInit, SimpleChange, ViewChild} from '@angular/core';
 import {Chat} from "../../../api/models/Chat";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
@@ -8,6 +8,7 @@ import {Observable, tap} from "rxjs";
 import {Message} from "../../../api/models/Message";
 import {MessageSendModel} from "../../../api/models/MessageSendModel";
 import {AuthHttpService} from "../../../api/services/auth-http.service";
+import {MessageHttpService} from "../../../api/services/message-http.service";
 
 @Component({
   selector: 'app-chat',
@@ -16,9 +17,17 @@ import {AuthHttpService} from "../../../api/services/auth-http.service";
 })
 export class ChatComponent implements OnInit {
 
+  private messagesCount: number = 20;
+
+  skip: number = 0;
   messageText : string = "";
+  hasReadToEnd: boolean = false;
+  scrolledToBottom: boolean = false;
 
   @Input() chat! : Chat;
+  @ViewChild('messagesContainer') viewportRef!: ElementRef;
+
+  private _changeDetectionRef: ChangeDetectorRef;
 
   constructor(
     private route : ActivatedRoute,
@@ -26,7 +35,9 @@ export class ChatComponent implements OnInit {
     private chatService : ChatHttpService,
     private chattingService : ChattingService,
     public authService : AuthHttpService,
-    private changeDetectionRef: ChangeDetectorRef) {
+    private changeDetectionRef: ChangeDetectorRef,
+    private messageService : MessageHttpService) {
+        this._changeDetectionRef = changeDetectionRef;
       }
 
   private getChat() : Observable<Chat>{
@@ -45,6 +56,12 @@ export class ChatComponent implements OnInit {
     this.chattingService.getMessages$.subscribe(message =>{
       this.onGetMessage(message);
     })
+  }
+
+  ngOnChanges(changes : SimpleChange){
+    // this.scrolledToBottom = false;
+    // this.hasReadToEnd = false;
+    // this.chat.messages = [];
   }
 
   onSend(messageText : string){

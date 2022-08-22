@@ -3,7 +3,7 @@
     <div class="chat-name">{{chat.name}}</div>
   </div>
 
-  <div *ngIf="chat?.messages" class="chat-messages" #messagesContairner>
+  <div class="chat-messages">
     <app-message
       *ngFor="let message of chat?.messages"
       attr.id = "messsage-{{message.id}}"
