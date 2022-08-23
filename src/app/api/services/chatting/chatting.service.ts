@@ -78,6 +78,6 @@ export class ChattingService {
   }
 
   sendMessage(message : MessageSendModel){
-    this.messagingService.sendMessageToChat(message);
+    return this.messagingService.sendMessageToChat(message);
   }
 }

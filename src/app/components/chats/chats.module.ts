@@ -15,6 +15,7 @@ import { MessageDeleteDialogComponent } from './message-delete-dialog/message-de
 import {MatDialogModule} from "@angular/material/dialog";
 import { MessageEditDialogComponent } from './message-edit-dialog/message-edit-dialog.component';
 import { ObserveVisibilityDirective } from './directives/observe-visibility.directive';
+import { MessageReplyDialogComponent } from './message-reply-dialog/message-reply-dialog.component';
 
 const routes : Routes =[
   {path: '', component: ChatsComponent}
@@ -27,7 +28,8 @@ const routes : Routes =[
     MessageComponent,
     MessageDeleteDialogComponent,
     MessageEditDialogComponent,
-    ObserveVisibilityDirective
+    ObserveVisibilityDirective,
+    MessageReplyDialogComponent
   ],
   imports: [
     CommonModule,

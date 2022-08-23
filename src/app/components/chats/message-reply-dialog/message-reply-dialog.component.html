@@ -1,0 +1,18 @@
+<form [formGroup]="form">
+  <div class="mat-title"> Reply message</div>
+  <mat-form-field [ngStyle]= "{'width' : '320px'}" appearance="outline">
+    <input
+      matInput
+      formControlName = "text"
+      type="string"
+      minlength="1"
+      placeholder="edit message">
+    <mat-hint>Message can't be empty</mat-hint>
+    <mat-error *ngIf="form.controls.text.invalid">Message can't be empty</mat-error>
+  </mat-form-field>
+
+  <div class="buttons-div">
+    <button mat-raised-button type="submit" color="primary" (click)="onReply()">Reply</button>
+    <button mat-flat-button (click)="onCancel()">Cancel</button>
+  </div>
+</form>

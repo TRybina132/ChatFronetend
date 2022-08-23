@@ -5,6 +5,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {MessageDeleteDialogComponent} from "../message-delete-dialog/message-delete-dialog.component";
 import {AuthHttpService} from "../../../api/services/auth-http.service";
 import {MessageEditDialogComponent} from "../message-edit-dialog/message-edit-dialog.component";
+import {MessageHttpService} from "../../../api/services/message-http.service";
+import {MessageReplyDialogComponent} from "../message-reply-dialog/message-reply-dialog.component";
 
 @Component({
   selector: 'app-message',
@@ -18,7 +20,8 @@ export class MessageComponent implements OnInit {
 
   constructor(
     private matDialog : MatDialog,
-    public authService : AuthHttpService) { }
+    public authService : AuthHttpService,
+    public messageService : MessageHttpService) { }
 
   ngOnInit(): void {
   }
@@ -45,6 +48,12 @@ export class MessageComponent implements OnInit {
 
   onReply(){
 
+  }
+
+  onPrivateReply(){
+    const dialog = this.matDialog.open(MessageReplyDialogComponent,{
+      data: this.message
+    });
   }
 
 }
