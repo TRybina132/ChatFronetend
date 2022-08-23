@@ -8,7 +8,6 @@ import {Chat} from "../models/Chat";
 })
 export class ChatHttpService {
 
-
   url : string = "https://localhost:7200/api/chat";
 
   constructor(private httpClient : HttpClient) { }
@@ -17,7 +16,17 @@ export class ChatHttpService {
     return this.httpClient.get<Chat[]>(this.url);
   }
 
+  getForUser(userId : number) : Observable<Chat[]>{
+    const requestUrl = `${this.url}/forUser/${userId}`;
+    return this.httpClient.get<Chat[]>(requestUrl);
+  }
+
   getChatById(id : number) : Observable<Chat>{
     return this.httpClient.get<Chat>(this.url + `/${id}`);
+  }
+
+  getPrivateChat(senderId : number, receiverId : number) : Observable<Chat>{
+    const requestUrl = `${this.url}/privateChat/${senderId}/${receiverId}`;
+    return this.httpClient.get<Chat>(requestUrl);
   }
 }

@@ -1,5 +1,5 @@
 <mat-action-list>
-  <mat-list-item *ngFor="let user of users" (click)="onSend(user)">
+  <mat-list-item *ngFor="let user of users" (click)="onSelected(user)">
     {{user.username}}
     <mat-icon class="send-icon">send</mat-icon>
   </mat-list-item>
