@@ -7,7 +7,7 @@ import {MatListModule} from "@angular/material/list";
 import { ChatComponent } from './chat/chat.component';
 import { MessageComponent } from './message/message.component';
 import {MatInputModule} from "@angular/material/input";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
@@ -27,18 +27,19 @@ const routes : Routes =[
     MessageDeleteDialogComponent,
     MessageEditDialogComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        MatGridListModule,
-        MatListModule,
-        MatInputModule,
-        FormsModule,
-        MatButtonModule,
-        MatIconModule,
-        MatMenuModule,
-        MatDialogModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    MatGridListModule,
+    MatListModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDialogModule,
+    ReactiveFormsModule
+  ],
   providers: [Location]
 })
 export class ChatsModule { }

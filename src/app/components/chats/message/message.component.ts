@@ -4,6 +4,7 @@ import {Chat} from "../../../api/models/Chat";
 import {MatDialog} from "@angular/material/dialog";
 import {MessageDeleteDialogComponent} from "../message-delete-dialog/message-delete-dialog.component";
 import {AuthHttpService} from "../../../api/services/auth-http.service";
+import {MessageEditDialogComponent} from "../message-edit-dialog/message-edit-dialog.component";
 
 @Component({
   selector: 'app-message',
@@ -37,7 +38,9 @@ export class MessageComponent implements OnInit {
   }
 
   onEdit(){
-
+    const dialog = this.matDialog.open(MessageEditDialogComponent, {
+      data : this.message
+    });
   }
 
   onReply(){

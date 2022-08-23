@@ -135,6 +135,7 @@ export class ChatComponent implements OnInit, OnChanges, AfterViewChecked{
       this.chat.messages?.splice(index,1);
   }
 
+
   ngAfterViewChecked() {
     if (!this.scrolledToBottom && this.chat?.messages?.length != 0){
       this.setScrollTop(this.scrollHeight);

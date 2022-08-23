@@ -1,1 +1,18 @@
-<p>message-edit-dialog works!</p>
+<form [formGroup]="form">
+  <div class="mat-title">Edit message</div>
+  <mat-form-field [ngStyle]="{'width' : '320px'}" appearance="outline">
+    <input
+      matInput
+      formControlName = "text"
+      type="string"
+      minlength="1"
+      placeholder="edit message">
+    <mat-hint>Message can't be empty</mat-hint>
+    <mat-error *ngIf="form.controls.text.invalid">Message can't be empty</mat-error>
+  </mat-form-field>
+
+  <div class="buttons-div">
+    <button mat-raised-button type="submit" color="primary" (click)="onUpdate()">Update</button>
+    <button mat-flat-button (click)="onCancel()">Cancel</button>
+  </div>
+</form>

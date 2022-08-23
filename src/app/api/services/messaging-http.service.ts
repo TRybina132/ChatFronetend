@@ -24,6 +24,11 @@ export class MessagingHttpService {
       .subscribe();
   }
 
+  updateMessage(message : Message) : Observable<Message>{
+    const requestUrl = `${this.url}/${message.id}`;
+    return this.httpClient.put<Message>(requestUrl, message);
+  }
+
   deleteMessage(message : Message) : Observable<Message>{
     const requestUrl = `${this.url}/${message.id}`;
     return this.httpClient.delete<Message>(requestUrl);

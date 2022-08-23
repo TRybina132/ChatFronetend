@@ -19,6 +19,7 @@ export class ChattingService {
   connectionUrl! : string;
   getMessages$ : Subject<Message> = new Subject<Message>();
   deleteMessage$ : Subject<Message> = new Subject<Message>();
+  updateMessage$ : Subject<Message> = new Subject<Message>();
 
   constructor(
     private authService : AuthHttpService,
@@ -44,6 +45,13 @@ export class ChattingService {
     });
   }
 
+  private listenForDeleteMessage(){
+    this.hubConnection.on('messageDeleted', (message : Message) => {
+      this.deleteMessage$.next(message);
+    });
+  }
+
+
   public connectToSignalR(){
     this.hubConnection
       .start()
@@ -65,10 +73,7 @@ export class ChattingService {
       console.log(message);
     });
 
-    this.hubConnection.on('messageDeleted', (message : Message) => {
-      this.deleteMessage$.next(message);
-    });
-
+    this.listenForDeleteMessage();
     this.listenForMessages();
   }
 
