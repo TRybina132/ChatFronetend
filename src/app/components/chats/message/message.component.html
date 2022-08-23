@@ -17,12 +17,12 @@
           <mat-icon>create</mat-icon>
         </button>
 
-        <button mat-menu-item (click)="onReply()">
+        <button *ngIf="message?.senderName != authService.getUsername()" mat-menu-item (click)="onReply()">
           Reply in chat
           <mat-icon>reply_all</mat-icon>
         </button>
 
-        <button mat-menu-item (click)="onPrivateReply()">
+        <button mat-menu-item *ngIf="message?.senderName != authService.getUsername()" (click)="onPrivateReply()">
           Reply private
           <mat-icon>reply</mat-icon>
         </button>
