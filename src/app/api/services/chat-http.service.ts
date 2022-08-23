@@ -21,6 +21,11 @@ export class ChatHttpService {
     return this.httpClient.get<Chat[]>(requestUrl);
   }
 
+  addUserToChat(chatId : number) : Observable<any>{
+    const requestUrl = `${this.url}/addUserToChat`;
+    return this.httpClient.post<any>(requestUrl, chatId);
+  }
+
   getChatById(id : number) : Observable<Chat>{
     return this.httpClient.get<Chat>(this.url + `/${id}`);
   }

@@ -51,7 +51,6 @@ export class ChattingService {
     });
   }
 
-
   public connectToSignalR(){
     this.hubConnection
       .start()

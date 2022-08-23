@@ -7,6 +7,8 @@
          *ngIf="authService.isAuthorized()">Users</a>
         <a mat-button routerLink="/login"
            *ngIf="!authService.isAuthorized()">Login</a>
+      <a mat-button routerLink="/dashboard"
+         *ngIf="authService.isAuthorized()">Dashboard</a>
         <a mat-button routerLink="/logout"
            *ngIf="authService.isAuthorized()" (click)="onLogout()">Logout</a>
     </div>
