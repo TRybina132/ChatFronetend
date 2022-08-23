@@ -1,5 +1,5 @@
 <div class="options-container">
   <div class="mat-title">Delete message</div>
-  <button mat-raised-button color="primary">Delete for everyone</button>
-  <button mat-raised-button color="primary">Delete only for me</button>
+  <button mat-raised-button color="primary" (click)="onDeleteForAll()">Delete for everyone</button>
+  <button mat-raised-button color="primary" (click)="onDeleteForUser()" class="delete-button">Delete only for me</button>
 </div>

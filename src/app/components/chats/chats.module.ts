@@ -13,6 +13,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import { MessageDeleteDialogComponent } from './message-delete-dialog/message-delete-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { MessageEditDialogComponent } from './message-edit-dialog/message-edit-dialog.component';
 
 const routes : Routes =[
   {path: '', component: ChatsComponent}
@@ -23,7 +24,8 @@ const routes : Routes =[
     ChatsComponent,
     ChatComponent,
     MessageComponent,
-    MessageDeleteDialogComponent
+    MessageDeleteDialogComponent,
+    MessageEditDialogComponent
   ],
     imports: [
         CommonModule,

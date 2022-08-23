@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Chat} from "../../../api/models/Chat";
 import {Message} from "../../../api/models/Message";
 import {MessageComponent} from "../message/message.component";
+import {MessagingHttpService} from "../../../api/services/messaging-http.service";
 
 @Component({
   selector: 'app-message-delete-dialog',
@@ -12,15 +12,18 @@ import {MessageComponent} from "../message/message.component";
 export class MessageDeleteDialogComponent implements OnInit {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private message : Message,
-    public dialog : MatDialogRef<MessageComponent>) { }
+    @Inject(MAT_DIALOG_DATA) private data : Message,
+    private messagingService : MessagingHttpService,
+    public dialogRef : MatDialogRef<MessageComponent>) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onDeleteForAll(){
+    this.messagingService.deleteMessage(this.data)
+      .subscribe(() => this.dialogRef.close(false));
   }
 
   onDeleteForUser(){
+    this.dialogRef.close(true);
   }
 }

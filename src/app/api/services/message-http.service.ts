@@ -14,7 +14,6 @@ export class MessageHttpService {
 
   getMessagesForChat(chatId : number, skip : number, take : number) : Observable<Message[]>{
     const requestUrl = `${this.url}/${chatId}/${skip}/${take}`;
-
     return this.httpClient.get<Message[]>(requestUrl);
   }
 }

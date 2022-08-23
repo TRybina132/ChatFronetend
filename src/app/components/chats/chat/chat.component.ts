@@ -99,7 +99,11 @@ export class ChatComponent implements OnInit, OnChanges, AfterViewChecked{
 
     this.chattingService.getMessages$.subscribe(message =>{
       this.onGetMessage(message);
-    })
+    });
+
+    this.chattingService.deleteMessage$.subscribe(message =>{
+      this.onDeleteMessage(message);
+    });
   }
 
 
@@ -119,12 +123,16 @@ export class ChatComponent implements OnInit, OnChanges, AfterViewChecked{
     }
   }
 
-  // use menu!
-
   onGetMessage(message : Message){
     this.chat.messages?.push(message);
     this.changeDetectionRef.detectChanges();
     this.setScrollTop(this.scrollHeight);
+  }
+
+  onDeleteMessage(message : Message){
+    const index : number = this.chat.messages?.findIndex(m => m.id == message.id) ?? -1;
+    if(index >= 0)
+      this.chat.messages?.splice(index,1);
   }
 
   ngAfterViewChecked() {

@@ -13,12 +13,12 @@ import {Observable, Subject} from "rxjs";
 export class ChattingService {
 
   private hubConnection!: HubConnection;
-  private unreadMessagesCount: number = 0;
 
   url : string = "https://localhost:7200/hubs/messages";
   currentChat! : Chat;
   connectionUrl! : string;
   getMessages$ : Subject<Message> = new Subject<Message>();
+  deleteMessage$ : Subject<Message> = new Subject<Message>();
 
   constructor(
     private authService : AuthHttpService,
@@ -63,6 +63,10 @@ export class ChattingService {
 
     this.hubConnection.on('userJoined', (message) => {
       console.log(message);
+    });
+
+    this.hubConnection.on('messageDeleted', (message : Message) => {
+      this.deleteMessage$.next(message);
     });
 
     this.listenForMessages();
