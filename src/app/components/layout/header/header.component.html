@@ -3,6 +3,8 @@
     <div class="header">
         <a mat-button routerLink="/chats"
           *ngIf="authService.isAuthorized()">Chats</a>
+      <a mat-button routerLink="/users"
+         *ngIf="authService.isAuthorized()">Users</a>
         <a mat-button routerLink="/login"
            *ngIf="!authService.isAuthorized()">Login</a>
         <a mat-button routerLink="/logout"

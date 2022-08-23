@@ -1,0 +1,7 @@
+.send-icon{
+  margin-left: 10px;
+}
+
+.send-icon:hover{
+  cursor: pointer;
+}

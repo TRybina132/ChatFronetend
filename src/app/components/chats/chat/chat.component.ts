@@ -34,7 +34,7 @@ export class ChatComponent implements OnInit, OnChanges, AfterViewChecked{
   scrolledToBottom: boolean = false;
 
   @Input() chat! : Chat;
-  @ViewChild('messagesContainer') viewportRef?: ElementRef;
+  @ViewChild('messagesContainer') viewportRef!: ElementRef;
 
   private _changeDetectionRef: ChangeDetectorRef;
 
@@ -65,28 +65,30 @@ export class ChatComponent implements OnInit, OnChanges, AfterViewChecked{
   private loadMessages(){
     if(this.chat?.id != undefined){
       this.messageService.getMessagesForChat(this.chat.id, this.skip, this.messagesTakeCount)
-        .subscribe(messages =>{
-            let preScrollHeight = this.scrollHeight;
-            const length : number = messages.length;
+        .subscribe(messages => {
+            if (messages.length != 0) {
+              let preScrollHeight = this.scrollHeight;
+              const length: number = messages.length;
 
-            if(length != 0)
-              this.chat.messages?.unshift(...messages.reverse());
-            else if(length == 0){
-              this.chat.messages = messages;
+              if (length != 0)
+                this.chat.messages?.unshift(...messages.reverse());
+              else if (length == 0) {
+                this.chat.messages = messages;
+              }
+
+              this._changeDetectionRef.detectChanges();
+              let postScrollHeight = this.scrollHeight;
+
+              if (preScrollHeight != postScrollHeight) {
+                let delta = (postScrollHeight - preScrollHeight);
+                this.setScrollTop(delta);
+              }
+
+              if (length < this.messagesTakeCount)
+                this.hasReadToEnd = true;
+
+              this.skip += length;
             }
-
-            this._changeDetectionRef.detectChanges();
-            let postScrollHeight = this.scrollHeight;
-
-            if(preScrollHeight != postScrollHeight){
-              let delta = ( postScrollHeight - preScrollHeight);
-              this.setScrollTop(delta);
-            }
-
-            if(length < this.messagesTakeCount)
-              this.hasReadToEnd = true;
-
-            this.skip+= length;
           }
         );
     }
@@ -135,6 +137,12 @@ export class ChatComponent implements OnInit, OnChanges, AfterViewChecked{
       this.chat.messages?.splice(index,1);
   }
 
+  onReadMessage(message: Message){
+    if(this.chat?.messages
+      && message.id === this.chat.messages[0].id) {
+      this.loadMessages();
+    }
+  }
 
   ngAfterViewChecked() {
     if (!this.scrolledToBottom && this.chat?.messages?.length != 0){
@@ -146,7 +154,6 @@ export class ChatComponent implements OnInit, OnChanges, AfterViewChecked{
   ngOnChanges(changes: SimpleChanges): void {
     this.scrolledToBottom = false;
     this.hasReadToEnd = false;
-    console.log("on change");
     this.skip = this.chat.messages?.length ?? 0;
     this.loadMessages();
   }

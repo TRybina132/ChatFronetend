@@ -8,7 +8,9 @@
       *ngFor="let message of chat?.messages"
       [ngClass]="{'my-message': message.senderId == authService.getUserId()}"
       [message]="message"
-      [chat]="chat">
+      [chat]="chat"
+      observeVisibility
+      (visible)="onReadMessage(message)">
     </app-message>
   </div>
 

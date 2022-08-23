@@ -10,6 +10,7 @@ const routes : Routes = [
       { path: '', redirectTo: 'chats', pathMatch: 'full' },
       { path: 'chats', loadChildren:() => import('./components/chats/chats.module').then(m => m.ChatsModule),canActivate: [AuthGuard] },
       { path: 'login', loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule)},
+      { path: 'users', loadChildren: () => import('./components/users/users.module').then(m => m.UsersModule), canActivate: [AuthGuard]},
       { path: 'chat/:id', component: ChatComponent, canActivate: [AuthGuard] }
     ]
   }
